@@ -499,6 +499,7 @@ class UserSettingsModel : public QAbstractListModel
         ButtonsInTimeline,
         TypingNotifications,
         ReadReceipts,
+        HiddenTimelineEvents,
         Markdown,
         InvertEnterKey,
         Bubbles,
@@ -571,6 +572,7 @@ public:
         KeyStatus,
         SessionKeyImportExport,
         XSignKeysRequestDownload,
+        ConfigureHiddenEvents,
     };
     Q_ENUM(Types);
 
