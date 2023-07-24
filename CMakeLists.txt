@@ -601,7 +601,7 @@ if(USE_BUNDLED_MTXCLIENT)
 	FetchContent_Declare(
 		MatrixClient
                 GIT_REPOSITORY https://github.com/Nheko-Reborn/mtxclient.git
-                GIT_TAG        0a4cc9421a97bea81a8921f3f5e040f0a34278fc
+                GIT_TAG        7d491a3a7c2bf54c99cea53c5249baa5d2e0f6e8
 		)
 	set(BUILD_LIB_EXAMPLES OFF CACHE INTERNAL "")
 	set(BUILD_LIB_TESTS OFF CACHE INTERNAL "")
@@ -773,6 +773,7 @@ set(QML_SOURCES
         resources/qml/dialogs/RawMessageDialog.qml
         resources/qml/dialogs/ReadReceipts.qml
         resources/qml/dialogs/ReCaptchaDialog.qml
+        resources/qml/dialogs/ReportMessage.qml
         resources/qml/dialogs/RoomDirectory.qml
         resources/qml/dialogs/RoomMembers.qml
         resources/qml/dialogs/AllowedRoomsSettingsDialog.qml

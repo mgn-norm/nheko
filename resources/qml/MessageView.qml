@@ -678,6 +678,12 @@ Item {
                 }
             }
         }
+        Component {
+            id: reportDialog
+
+            ReportMessage {}
+        }
+
         Platform.MenuItem {
             enabled: visible
             text: qsTr("Go to &message")
@@ -779,6 +785,16 @@ Item {
             onTriggered: function () {
                 var dialog = removeReason.createObject(timelineRoot);
                 dialog.eventId = messageContextMenu.eventId;
+                dialog.show();
+                dialog.forceActiveFocus();
+                timelineRoot.destroyOnClose(dialog);
+            }
+        }
+        Platform.MenuItem {
+            text: qsTr("Report message")
+            enabled: visible
+            onTriggered: function () {
+                var dialog = reportDialog.createObject(timelineRoot, {"eventId": messageContextMenu.eventId});
                 dialog.show();
                 dialog.forceActiveFocus();
                 timelineRoot.destroyOnClose(dialog);
