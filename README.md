@@ -303,17 +303,17 @@ sudo pacman -S qt5-base \
     qtkeychain-qt5
 ```
 
-#### Debian 11+ / Ubuntu 22.04 
-*Older OS versions require a newer version of Qt5 than offered in official repositories.* 
+#### Debian 11+ / Ubuntu 22.04
+*Older OS versions require a newer version of Qt5 than offered in official repositories.*
 *Build requirements + qml modules needed at runtime (you may not need all of them, but the following seem to work according to reports):*
 ```bash
 sudo apt install --no-install-recommends g++ cmake make zlib1g-dev libssl-dev libolm-dev liblmdb-dev libcmark-dev nlohmann-json3-dev libspdlog-dev libevent-dev libcurl4-openssl-dev libre2-dev libxcb-ewmh-dev asciidoc-base \
 qt{base,declarative,tools,multimedia,quickcontrols2-}5-dev libqt5svg5-dev qt5keychain-dev qml-module-qt{gstreamer,multimedia,quick-extras,-labs-settings,-labs-platform,graphicaleffects,quick-controls2,quick-particles2} \
 libgstreamer1.0-dev libgstreamer-plugins-{base,bad}1.0-dev qtgstreamer-plugins-qt5 libnice-dev ninja-build
 ```
-lmdb++-dev is too old so bundled lmdbxx must be used.  
-libspdlog-dev in debian bullseye is too old (without backporting) so requires using hunter to use bundled spdlog.  
-Suggested flags for debian bullseye: `-DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=OFF`  
+lmdb++-dev is too old so bundled lmdbxx must be used.
+libspdlog-dev in debian bullseye is too old (without backporting) so requires using hunter to use bundled spdlog.
+Suggested flags for debian bullseye: `-DHUNTER_ENABLED=ON -DBUILD_SHARED_LIBS=OFF -DUSE_BUNDLED_OPENSSL=OFF`
 Suggested flags for debian bookworm: `-DUSE_BUNDLED_COEURL=1 -DUSE_BUNDLED_MTXCLIENT=1 -DUSE_BUNDLED_LMDBXX=1`
 
 #### Fedora
@@ -419,6 +419,38 @@ The final binary will be located inside `build-vc\Release\Release` for the Relea
 and `build-vc\Debug\Debug` for the Debug build.
 
 Also copy the respective cmark.dll to the binary dir from `build/cmark-build/src/Release` (or Debug).
+
+#### Android
+
+Install an ndk version r26+, previous versions do not have the required c++20 std implementations
+
+export the `ANDROID_NDK_ROOT` and `JAVA_HOME` variables, openjdk 17 is required, or the equavilent oracle version.
+
+I found it's easiest to build the keychain lib seperate and then add the cmake directory to the defines.
+
+```
+-D Qt6Keychain_DIR:FILEPATH=/usr/local/lib/cmake/Qt6Keychain/
+```
+
+Pass the appropriate cmake defines for vcpkg, change them to fit your system. this is just works for me.
+
+e.g.
+
+```
+-D CMAKE_TOOLCHAIN_FILE:FILEPATH=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake
+-D VCPKG_CHAINLOAD_TOOLCHAIN_FILE:FILEPATH=/opt/android-libs/aarch64/lib/cmake/Qt6/qt.toolchain.cmake
+-D VCPKG_TARGET_TRIPLET=arm64-android
+-D VCPKG_HOST_TRIPLET=x64-linux
+-D USE_BUNDLED_OLM=ON -D USE_BUNDLED_MTXCLIENT=ON -D USE_BUNDLED_COEURL=ON -D USE_BUNDLED_LMDBXX=ON -D VOIP=OFF
+-D ANDROID_PLATFORM=latest"
+```
+
+run the cmake commands with CMAKE_FLAGS being the previously defined flags mentioned above.
+
+```
+cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release ${CMAKE_FLAGS}
+cmake --build build
+```
 
 
 ### Contributing
