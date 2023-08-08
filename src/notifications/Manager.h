@@ -32,11 +32,11 @@ class NotificationsManager final : public QObject
 {
     Q_OBJECT
 public:
-    NotificationsManager(QObject *parent = nullptr);
+    NotificationsManager(QObject *parent = nullptr) {}
 
-    void postNotification(const mtx::responses::Notification &notification, const QImage &icon);
+    void postNotification(const mtx::responses::Notification &notification, const QImage &icon) {}
 
-    void removeNotification(const QString &roomId, const QString &eventId);
+    void removeNotification(const QString &roomId, const QString &eventId) {}
 
 signals:
     void notificationClicked(const QString roomId, const QString eventId);
@@ -53,7 +53,7 @@ public slots:
 #if defined(NHEKO_DBUS_SYS)
 public:
     void closeNotifications(QString roomId);
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS)
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MACOS) && !defined(Q_OS_ANDROID)
     void closeAllNotifications();
 #endif
 
@@ -100,9 +100,9 @@ private:
     // these slots are platform specific (D-Bus only)
     // but Qt slot declarations can not be inside an ifdef!
 private slots:
-    void actionInvoked(uint id, QString action);
-    void notificationClosed(uint id, uint reason);
-    void notificationReplied(uint id, QString reply);
+    void actionInvoked(uint id, QString action) {}
+    void notificationClosed(uint id, uint reason) {}
+    void notificationReplied(uint id, QString reply) {}
 
 private:
     QString getMessageTemplate(const mtx::responses::Notification &notification);
