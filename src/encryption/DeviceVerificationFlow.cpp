@@ -37,7 +37,7 @@ DeviceVerificationFlow::DeviceVerificationFlow(QObject *,
   , deviceIds(std::move(deviceIds_))
   , model_(model)
 {
-    nhlog::crypto()->debug("CREATING NEW FLOW, {}, {}", flow_type, (void *)this);
+    nhlog::crypto()->debug("CREATING NEW FLOW");
     if (deviceIds.size() == 1)
         deviceId = deviceIds.front();
 

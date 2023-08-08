@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "2020mobile",
+  "version-string": "0.0.0",
+  "dependencies": [
+    "spdlog",
+    "lmdb",
+    "cmark",
+    "nlohmann-json",
+    "curl",
+    "libevent",
+    "re2",
+    "lmdb"
+  ]
+}
